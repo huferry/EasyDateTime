@@ -3,7 +3,7 @@ Extension library to work with date time much easier.
 
 Make your code using DateTime easier to read by fluently constructing DateTime objects.
 
----c
+```c
 
 // 25 years ago
 DateTime birthDate = 25.Years().Ago();
@@ -17,4 +17,4 @@ Datetime downloadTime = 15.OClock();
 // Durations
 TimeSpan maxTimeOut = 30.Seconds();
 
----
+```
