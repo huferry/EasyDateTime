@@ -17,6 +17,13 @@ Datetime downloadTime = 15.OClock();
 // Durations
 TimeSpan maxTimeOut = 30.Seconds();
 
+// Scheduled actions
+Action act = () => Console.WriteLine("test");
+act.DoEvery(10.Seconds(), times: 100).WithoutWaiting(() => {
+	Console.WriteLine("I am finished.");
+});
+
+
 ```
 
 Available as Nuget package: https://www.nuget.org/packages/EasyDateTime/
