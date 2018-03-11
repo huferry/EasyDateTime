@@ -18,3 +18,8 @@ Datetime downloadTime = 15.OClock();
 TimeSpan maxTimeOut = 30.Seconds();
 
 ```
+
+Available as Nuget package: https://www.nuget.org/packages/EasyDateTime/
+```
+PM> Install-Package EasyDateTime
+```
