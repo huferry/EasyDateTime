@@ -11,5 +11,14 @@ namespace EasyDateTime
         {
             return new ScheduledAction(action, timeSpan, times);
         }
+
+        public static void DoAfter(
+            this Action action,
+            TimeSpan timeSpan,
+            Action finishAction)
+        {
+            var scheduledAction = new ScheduledAction(action, timeSpan, 2);
+            scheduledAction.SkipFirst(finishAction);
+        }
     }
 }

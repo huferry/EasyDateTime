@@ -11,6 +11,7 @@ namespace EasyDateTime
         private readonly int? times;
         private readonly TimeSpan timeSpan;
         private bool isAlive = true;
+        private bool skipFirst;
         private Thread worker;
 
         internal ScheduledAction(
@@ -43,19 +44,22 @@ namespace EasyDateTime
             var i = 0;
             while (isAlive && (!times.HasValue || i < times.Value))
             {
-                PerformAction();
+                PerformAction(i);
                 i++;
             }
 
             finished?.Invoke();
         }
 
-        private void PerformAction()
+        private void PerformAction(int index)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            action.Invoke();
+            if (!skipFirst || index > 0)
+            {
+                action.Invoke();
+            }
 
             Wait(stopwatch);
         }
@@ -90,6 +94,14 @@ namespace EasyDateTime
         private static void DoWaitUntilFinish(object scheduledAction)
         {
             (scheduledAction as ScheduledAction)?.WaitUntilFinish();
+        }
+
+        public void SkipFirst(Action finishAction = null)
+        {
+            var newAction = Copy(finishAction);
+            newAction.skipFirst = true;
+            worker = new Thread(DoWaitUntilFinish);
+            worker.Start(newAction);
         }
     }
 }

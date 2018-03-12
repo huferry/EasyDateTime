@@ -129,5 +129,23 @@ namespace EasyDateTimeUnitTests
             Assert.AreEqual(lastCount, count);
             Assert.IsTrue(finished);
         }
+
+        [TestMethod]
+        public void DoAfter_With1Second_ShouldWaitFor1Second()
+        {
+            // Arrange.
+            var stopwatch = new Stopwatch();
+
+            Action stop = () => stopwatch.Stop();
+
+            stopwatch.Start();
+
+            // Act.
+            stop.DoAfter(500.Milliseconds(), () => Debug.WriteLine($"Stopwatch ends: {stopwatch.Elapsed}"));
+
+            // Assert.
+            Thread.Sleep(600.Milliseconds());
+            stopwatch.Elapsed.ShouldBeCloseTo(500.Milliseconds(), 5.Milliseconds());
+        }
     }
 }
