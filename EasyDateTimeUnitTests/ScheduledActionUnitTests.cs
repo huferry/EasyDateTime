@@ -84,5 +84,50 @@ namespace EasyDateTimeUnitTests
             Thread.Sleep(200);
             Assert.AreEqual("finished", log);
         }
+
+        [TestMethod]
+        public void Stop_WhileRepeatingActionWitTimes_ShouldStop()
+        {
+            // Arrange.
+            var count = 0;
+            Action act = () => count++;
+
+            var worker = act.DoEvery(10.Milliseconds(), 50)
+                .WithoutWaiting();
+
+            Thread.Sleep(100);
+
+            // Act.
+            worker.Stop();
+
+            // Assert.
+            var lastCount = count;
+            Thread.Sleep(500);
+            Assert.AreEqual(lastCount, count);
+        }
+
+        [TestMethod]
+        public void Stop_WhileRepeatingActionWithNoTimes_ShouldStop()
+        {
+            // Arrange.
+            var count = 0;
+            var finished = false;
+            Action act = () => count++;
+
+            var worker = act.DoEvery(10.Milliseconds())
+                .WithoutWaiting(() => finished = true);
+
+            Thread.Sleep(100);
+
+            // Act.
+            worker.Stop();
+
+            // Assert.
+            Thread.Sleep(20);
+            var lastCount = count;
+            Thread.Sleep(200);
+            Assert.AreEqual(lastCount, count);
+            Assert.IsTrue(finished);
+        }
     }
 }

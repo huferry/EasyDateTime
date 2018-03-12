@@ -67,11 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertExtensions.cs" />
-    <Compile Include="IndefiniteDateTimeUnitTests.cs" />
+    <Compile Include="DateTimeExtensionsUnitTests.cs" />
+    <Compile Include="IndefiniteTimeSpanUnitTests.cs" />
     <Compile Include="IntegerDateTimeExtensionsUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduledActionUnitTests.cs" />
-    <Compile Include="TimeSpanExtensions.cs" />
+    <Compile Include="TimeSpanExtensionsUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

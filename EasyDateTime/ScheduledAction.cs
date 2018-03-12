@@ -8,13 +8,15 @@ namespace EasyDateTime
     {
         private readonly Action action;
         private readonly Action finished;
-        private readonly int times;
+        private readonly int? times;
         private readonly TimeSpan timeSpan;
+        private bool isAlive = true;
+        private Thread worker;
 
         internal ScheduledAction(
             Action action,
             TimeSpan timeSpan,
-            int times,
+            int? times,
             Action finished = null)
         {
             if (times < 0)
@@ -33,36 +35,59 @@ namespace EasyDateTime
             return new ScheduledAction(action, timeSpan, times, newFinishedAction);
         }
 
+        /// <summary>
+        ///     Wait until all scheduled actions are finished performing.
+        /// </summary>
         public void WaitUntilFinish()
         {
-            for (var i = 0; i < times; i++)
+            var i = 0;
+            while (isAlive && (!times.HasValue || i < times.Value))
             {
-                var stopwatch = new Stopwatch();
-                stopwatch.Start();
-
-                action.Invoke();
-
-                Wait(stopwatch);
+                PerformAction();
+                i++;
             }
 
             finished?.Invoke();
         }
 
+        private void PerformAction()
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            action.Invoke();
+
+            Wait(stopwatch);
+        }
+
         private void Wait(Stopwatch start)
         {
-            while (start.Elapsed < timeSpan)
+            while (isAlive && start.Elapsed < timeSpan)
             {
                 // just wait
             }
         }
 
-        public void WithoutWaiting(Action actionWhenFinished = null)
+        /// <summary>
+        ///     Perform the action on a new thread without waiting all actions to finish performing.
+        ///     Invoke the Stop() method to stop the scheduling.
+        /// </summary>
+        /// <param name="actionWhenFinished">Will be invoked when all scheduled actions are finished.</param>
+        /// <returns>A new scheduled action, can be used to stop the scheduling.</returns>
+        public ScheduledAction WithoutWaiting(Action actionWhenFinished = null)
         {
-            var thread = new Thread(Do);
-            thread.Start(Copy(actionWhenFinished));
+            var newAction = Copy(actionWhenFinished);
+            worker = new Thread(DoWaitUntilFinish);
+            worker.Start(newAction);
+            return newAction;
         }
 
-        public static void Do(object scheduledAction)
+        public void Stop()
+        {
+            isAlive = false;
+        }
+
+        private static void DoWaitUntilFinish(object scheduledAction)
         {
             (scheduledAction as ScheduledAction)?.WaitUntilFinish();
         }

@@ -29,14 +29,14 @@ namespace EasyDateTime
             return TimeSpan.FromDays(value);
         }
 
-        public static IndefiniteDateTime Years(this int value)
+        public static IIndefiniteTimeSpan Years(this int value)
         {
-            return new IndefiniteDateTime(DurationType.Year, value);
+            return new YearSpan(value);
         }
 
-        public static IndefiniteDateTime Months(this int value)
+        public static IIndefiniteTimeSpan Months(this int value)
         {
-            return new IndefiniteDateTime(DurationType.Month, value);
+            return new MonthSpan(value);
         }
 
         public static DateTime OClock(this int value)

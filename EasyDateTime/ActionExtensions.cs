@@ -7,7 +7,7 @@ namespace EasyDateTime
         public static ScheduledAction DoEvery(
             this Action action,
             TimeSpan timeSpan,
-            int times)
+            int? times = null)
         {
             return new ScheduledAction(action, timeSpan, times);
         }

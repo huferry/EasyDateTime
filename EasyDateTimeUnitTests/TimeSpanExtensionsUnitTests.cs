@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace EasyDateTimeUnitTests
 {
     [TestClass]
-    public class TimeSpanExtensions
+    public class TimeSpanExtensionsUnitTests
     {
         [TestMethod]
         public void Ago_With5Seconds_Returns5MillisecondsAgo()
