@@ -60,9 +60,9 @@
   <ItemGroup>
     <Compile Include="ActionExtensions.cs" />
     <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="DurationType.cs" />
     <Compile Include="IIndefiniteTimeSpan.cs" />
     <Compile Include="MonthSpan.cs" />
+    <Compile Include="Period.cs" />
     <Compile Include="YearSpan.cs" />
     <Compile Include="IntegerDateTimeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

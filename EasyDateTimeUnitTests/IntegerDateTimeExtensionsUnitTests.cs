@@ -85,5 +85,23 @@ namespace EasyDateTimeUnitTests
             // Act.
             (-1).OClock();
         }
+
+        [TestMethod]
+        public void MonthName()
+        {
+            // Act. Assert.
+            Assert.AreEqual(new DateTime(2010, 1, 12), 12.January(2010));
+            Assert.AreEqual(new DateTime(2010, 2, 12), 12.February(2010));
+            Assert.AreEqual(new DateTime(2010, 3, 12), 12.March(2010));
+            Assert.AreEqual(new DateTime(2010, 4, 12), 12.April(2010));
+            Assert.AreEqual(new DateTime(2010, 5, 12), 12.May(2010));
+            Assert.AreEqual(new DateTime(2010, 6, 12), 12.June(2010));
+            Assert.AreEqual(new DateTime(2010, 7, 12), 12.July(2010));
+            Assert.AreEqual(new DateTime(2010, 8, 12), 12.August(2010));
+            Assert.AreEqual(new DateTime(2010, 9, 12), 12.September(2010));
+            Assert.AreEqual(new DateTime(2010, 10, 12), 12.October(2010));
+            Assert.AreEqual(new DateTime(2010, 11, 12), 12.November(2010));
+            Assert.AreEqual(new DateTime(2010, 12, 12), 12.December(2010));
+        }
     }
 }

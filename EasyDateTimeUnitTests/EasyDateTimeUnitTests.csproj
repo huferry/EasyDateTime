@@ -70,6 +70,7 @@
     <Compile Include="DateTimeExtensionsUnitTests.cs" />
     <Compile Include="IndefiniteTimeSpanUnitTests.cs" />
     <Compile Include="IntegerDateTimeExtensionsUnitTests.cs" />
+    <Compile Include="PeriodUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduledActionUnitTests.cs" />
     <Compile Include="TimeSpanExtensionsUnitTests.cs" />

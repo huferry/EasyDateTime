@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using EasyDateTime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -158,19 +157,35 @@ namespace EasyDateTimeUnitTests
         }
 
         [TestMethod]
-        public void Every_WithPeriodOf1HourEvery5Minutes_Returns13Times()
+        public void IsDayname_WithDayOfWeek_ReturnsTrue()
         {
             // Arrange.
-            var start = DateTime.Today;
-            var end = start.AddHours(1);
+            var monday = new DateTime(2018, 3,12);
 
-            // Act.
-            var actual = Period.From(start).Until(end).Every(5.Minutes());
+            // Act. Assert.
+            Assert.IsTrue(monday.IsMonday());
+            Assert.IsTrue(monday.AddDays(1).IsTuesday());
+            Assert.IsTrue(monday.AddDays(2).IsWednesday());
+            Assert.IsTrue(monday.AddDays(3).IsThursday());
+            Assert.IsTrue(monday.AddDays(4).IsFriday());
+            Assert.IsTrue(monday.AddDays(5).IsSaturday());
+            Assert.IsTrue(monday.AddDays(6).IsSunday());
+        }
 
-            // Assert.
-            Assert.AreEqual(13, actual.Length);
-            Assert.AreEqual(start, actual.First());
-            actual.Last().ShouldBeCloseTo(end, 50.Milliseconds());
+        [TestMethod]
+        public void IsDayname_WithOtherDayOfWeek_ReturnsFalse()
+        {
+            // Arrange.
+            var sunday = new DateTime(2018, 3, 11);
+
+            // Act. Assert.
+            Assert.IsFalse(sunday.IsMonday());
+            Assert.IsFalse(sunday.AddDays(1).IsTuesday());
+            Assert.IsFalse(sunday.AddDays(2).IsWednesday());
+            Assert.IsFalse(sunday.AddDays(3).IsThursday());
+            Assert.IsFalse(sunday.AddDays(4).IsFriday());
+            Assert.IsFalse(sunday.AddDays(5).IsSaturday());
+            Assert.IsFalse(sunday.AddDays(6).IsSunday());
         }
     }
 }
