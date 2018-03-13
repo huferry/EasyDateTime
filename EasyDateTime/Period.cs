@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace EasyDateTime
 {
+    /// <summary>
+    ///     A period of time which can be a closed period (containing begin and end date/time) or
+    ///     an open period (either with only begin or end date/time).
+    /// </summary>
     public class Period
     {
         private readonly DateTime? end;
@@ -14,23 +18,32 @@ namespace EasyDateTime
             this.end = end;
         }
 
+        /// <summary>
+        ///     Does The current date/time stand in this period.
+        /// </summary>
         public bool IsCurrentlyActive => DateTime.Now.IsBetween(start, end);
 
-        public static Period Before(DateTime dateTimeUntil)
-        {
-            return new Period(null, dateTimeUntil);
-        }
+        /// <summary>
+        ///     Create an open period having only an end date/time.
+        /// </summary>
+        /// <param name="dateTimeUntil"></param>
+        public static Period Before(DateTime dateTimeUntil) => new Period(null, dateTimeUntil);
 
-        public static Period From(DateTime dateTimeFrom)
-        {
-            return new Period(dateTimeFrom, default(DateTime?));
-        }
+        /// <summary>
+        ///     Create an open period having only a begin date/time.
+        /// </summary>
+        public static Period From(DateTime dateTimeFrom) =>
+            new Period(dateTimeFrom, default(DateTime?));
 
-        public Period Until(DateTime dateTimeUntil)
-        {
-            return new Period(start, dateTimeUntil);
-        }
+        /// <summary>
+        ///     Set an end date/time of this period.
+        /// </summary>
+        public Period Until(DateTime dateTimeUntil) => new Period(start, dateTimeUntil);
 
+        /// <summary>
+        ///     Create an array of date/times which are evenly distributed within this period,
+        ///     having a distance of the given time span.
+        /// </summary>
         public DateTime[] Every(TimeSpan span)
         {
             if (!start.HasValue)
